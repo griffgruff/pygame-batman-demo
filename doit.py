@@ -2,13 +2,19 @@ import pygame
 from pygame.locals import *
 
 class Batman(object):
-    """docstring for Batman"""
+    x = 0 
+    y = 0
+
     def __init__(self, screen):
         self.sprite_batman  = pygame.image.load("Batman.png").convert_alpha()
         self.screen = screen
 
     def draw(self):
-        self.screen.blit(self.sprite_batman,(100,100))
+        self.x = self.x + 1
+
+        if self.x > 800:
+            self.x = 0
+        self.screen.blit(self.sprite_batman,(self.x,100))
 
 
 class App(object):
@@ -23,14 +29,10 @@ class App(object):
         pygame.init()
 
         self.screen = pygame.display.set_mode((800,600), pygame.HWSURFACE)
-
         self._running = True
-
         self.batman = Batman(self.screen)
-
         self._image_surf_background = pygame.image.load("widescreen_small.jpg").convert()
 
-        self._image_surf = pygame.image.load("Batman.png").convert_alpha()
  
     def on_event(self, event):
         if event.type == QUIT:
@@ -40,16 +42,9 @@ class App(object):
         pass
         
     def on_render(self):
-
         self.screen.blit(self._image_surf_background,(0,0))
-
         self.batman.draw()
 
-        self.screen.blit(self._image_surf,(self.x,self.y))
-
-        self.x = self.x + 1
-        if self.x > 800:
-            self.x = 0
         pygame.display.flip()
  
     def on_cleanup(self):
