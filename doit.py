@@ -1,19 +1,35 @@
 import pygame
 from pygame.locals import *
 
-class App:
+class Batman(object):
+    """docstring for Batman"""
+    def __init__(self, screen):
+        self.sprite_batman  = pygame.image.load("Batman.png").convert_alpha()
+        self.screen = screen
+
+    def draw(self):
+        self.screen.blit(self.sprite_batman,(100,100))
+
+
+class App(object):
     x = 0
     y = 0
     def __init__(self):
         self._running = True
-        self._display_surf = None
+        self.screen = None
         self._image_surf = None
  
     def on_init(self):
         pygame.init()
-        self._display_surf = pygame.display.set_mode((800,600), pygame.HWSURFACE)
+
+        self.screen = pygame.display.set_mode((800,600), pygame.HWSURFACE)
+
         self._running = True
+
+        self.batman = Batman(self.screen)
+
         self._image_surf_background = pygame.image.load("widescreen_small.jpg").convert()
+
         self._image_surf = pygame.image.load("Batman.png").convert_alpha()
  
     def on_event(self, event):
@@ -25,12 +41,12 @@ class App:
         
     def on_render(self):
 
-        self._display_surf.blit(self._image_surf_background,(0,0))
+        self.screen.blit(self._image_surf_background,(0,0))
 
-        self._display_surf.blit(self._image_surf,(self.x,self.y))
-        self._display_surf.blit(self._image_surf,(self.x + 2,100))
-        self._display_surf.blit(self._image_surf,(self.x + 12,100))
-        self._display_surf.blit(self._image_surf,(self.x + 52,100))
+        self.batman.draw()
+
+        self.screen.blit(self._image_surf,(self.x,self.y))
+
         self.x = self.x + 1
         if self.x > 800:
             self.x = 0
